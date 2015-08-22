@@ -1,0 +1,71 @@
+{% include header.html %}
+<div class="demo-blog demo-blog--blogpost mdl-layout mdl-js-layout has-drawer is-upgraded">
+  <main class="mdl-layout__content">
+    <div class="demo-back">
+      <a class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" href="{{ site.baseurl }}" title="go back" role="button">
+        <i class="material-icons" role="presentation">arrow_back</i>
+      </a>
+    </div>
+    <div class="demo-blog__posts mdl-grid">
+      <div class="mdl-card mdl-shadow--4dp mdl-cell mdl-cell--12-col {{ page.type }}">
+        <div class="mdl-card__media mdl-color-text--grey-50">
+          <h3>{{ page.title }}</h3>
+        </div>
+        <div class="mdl-color-text--grey-700 mdl-card__supporting-text meta">
+          <div class="minilogo"></div>
+          <div>
+            <strong>PeterCxy</strong>
+            <span>typed...</span>
+          </div>
+        </div>
+        <div class="mdl-color-text--grey-700 mdl-card__supporting-text">
+            {{ content }}
+        </div>
+        <div class="mdl-color-text--primary-contrast mdl-card__supporting-text comments">
+          <form id="submit_comment">
+            <div class="mdl-grid">
+              <div class="mdl-cell mdl-cell--1-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea rows=1 class="mdl-textfield__input" id="form_email"></textarea>
+                <label for="form_email" class="mdl-textfield__label">Your email</label>
+              </div>
+              <div class="mdl-cell mdl-cell--1-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea rows=1 class="mdl-textfield__input" id="form_nick"></textarea>
+                <label for="form_nick" class="mdl-textfield__label">Your nickname</label>
+              </div>
+              <div class="mdl-cell mdl-cell--5-col mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <textarea rows=1 class="mdl-textfield__input" id="form_content" maxlength="200"></textarea>
+                <label for="form_content" class="mdl-textfield__label">Join the discussion</label>
+              </div>
+            </div>
+            <button class="mdl-button mdl-js-button mdl-js-ripple-effect mdl-button--icon" id="submit">
+              <i class="material-icons" role="presentation">check</i><span class="visuallyhidden">add comment</span>
+            </button>
+          </form>
+          <div class="spinner-wrapper"><div class="mdl-spinner mdl-js-spinner is-active"></div></div>
+          <div id="comments"></div>
+        </div>
+       </div>
+      </div>
+      <script src="{{ site.baseurl }}js/comments.js?ver={{ site.style_version }}" type="text/javascript"></script>
+      <script>
+        $(function() {
+          var page_id = '{{ page.id }}'.trim();
+          var page_url = '{{ page.url }}'.trim();
+          var id = '';
+          if (page_id == '') {
+              id = page_url.replace('.html', '');
+          } else {
+              id = page_id;
+          }
+
+          renderComments($, id);
+
+          $('#submit_comment').submit(function(e) {
+              e.preventDefault();
+              submitComment($, id);
+          });
+        });
+      </script>
+
+
+{% include footer.html %}
